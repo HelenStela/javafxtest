@@ -12,6 +12,8 @@ import ch.makery.address.MainApp;
 import ch.makery.address.model.Person;
 import ch.makery.address.util.DateUtil;
 
+import java.time.LocalDate;
+
 public class PersonOverviewController {
     @FXML
     private TableView<Person> personTable;
@@ -32,6 +34,9 @@ public class PersonOverviewController {
     private Label cityLabel;
     @FXML
     private Label birthdayLabel;
+
+	@FXML
+	private Label meetdayLabel;
 
     // Reference to the main application.
     private MainApp mainApp;
@@ -90,6 +95,8 @@ public class PersonOverviewController {
     		postalCodeLabel.setText(Integer.toString(person.getPostalCode()));
     		cityLabel.setText(person.getCity());
     		birthdayLabel.setText(DateUtil.format(person.getBirthday()));
+			if(person.getMeetday().isAfter(LocalDate.of(2015,5,20)))
+			meetdayLabel.setText(DateUtil.format(person.getMeetday()));
     	} else {
     		// Person is null, remove all the text.
     		firstNameLabel.setText("");
@@ -98,6 +105,7 @@ public class PersonOverviewController {
     		postalCodeLabel.setText("");
     		cityLabel.setText("");
     		birthdayLabel.setText("");
+			meetdayLabel.setText("");
     	}
     }
 

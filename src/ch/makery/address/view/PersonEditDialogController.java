@@ -10,6 +10,8 @@ import org.controlsfx.dialog.Dialogs;
 import ch.makery.address.model.Person;
 import ch.makery.address.util.DateUtil;
 
+import java.time.LocalDate;
+
 
 public class PersonEditDialogController {
 
@@ -25,6 +27,9 @@ public class PersonEditDialogController {
     private TextField cityField;
     @FXML
     private TextField birthdayField;
+
+    @FXML
+    private TextField meetdayField;
 
 
     private Stage dialogStage;
@@ -63,6 +68,10 @@ public class PersonEditDialogController {
         cityField.setText(person.getCity());
         birthdayField.setText(DateUtil.format(person.getBirthday()));
         birthdayField.setPromptText("dd.mm.yyyy");
+        meetdayField.setText(DateUtil.format(person.getMeetday()));
+        meetdayField.setPromptText("dd.mm.yyyy");
+        if (meetdayField.getText().equals("2000,2,2"))
+            meetdayField.setText("");
     }
 
     /**
@@ -86,6 +95,7 @@ public class PersonEditDialogController {
             person.setPostalCode(Integer.parseInt(postalCodeField.getText()));
             person.setCity(cityField.getText());
             person.setBirthday(DateUtil.parse(birthdayField.getText()));
+            person.setMeetday(DateUtil.parse((meetdayField.getText())));
 
             okClicked = true;
             dialogStage.close();
@@ -138,6 +148,14 @@ public class PersonEditDialogController {
         } else {
             if (!DateUtil.validDate(birthdayField.getText())) {
                 errorMessage += "No valid birthday. Use the format dd.mm.yyyy!\n";
+            }
+        }
+
+        if (meetdayField.getText() == null || meetdayField.getText().length() == 0) {
+            errorMessage += "No valid meetday!\n";
+        } else {
+            if((!DateUtil.validDate(meetdayField.getText()))||(DateUtil.parse((meetdayField.getText()))).isBefore( LocalDate.of(2015,05,20))) {
+                errorMessage += "No valid meetday. Use the format dd.mm.yyyy!\n";
             }
         }
 
